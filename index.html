@@ -1644,15 +1644,15 @@ function updateContractDescription(val) {
     <h2 style="font-family:var(--font-heading);font-size:2.2rem;color:#141009;margin-bottom:0.5rem;">Request a Contract Enquiry</h2>
     <p style="color:var(--muted);margin-bottom:0;">Tell us a little about your site and we'll come back to you with tailored pricing. No obligation.</p>
     <div class="form" style="margin-top:2rem;">
-      <form>
-        <input placeholder="Name" required>
-        <input placeholder="Company / Site Name" required>
-        <input placeholder="Phone" required>
-        <input placeholder="Email" type="email" required>
-        <input placeholder="Site address / postcode" required>
+      <form id="form-contract">
+        <input name="name" placeholder="Name" required>
+        <input name="company" placeholder="Company / Site Name" required>
+        <input name="phone" placeholder="Phone" required>
+        <input name="email" type="email" placeholder="Email" required>
+        <input name="address" placeholder="Site address / postcode" required>
 
         <label style="font-size:0.8rem;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px;">Contract tier</label>
-        <select id="contractTierSelect" onchange="updateContractDescription(this.value)">
+        <select name="contract_tier" id="contractTierSelect" onchange="updateContractDescription(this.value)">
           <option value="">— Select a contract —</option>
           <option value="essential">Essential — Bi-annual (2 visits/year)</option>
           <option value="professional">Professional — Quarterly (4 visits/year) ★ Most Popular</option>
@@ -1663,7 +1663,7 @@ function updateContractDescription(val) {
         <div id="contractDesc" style="display:none;background:#fffbf2;border:1px solid rgba(192,125,42,0.25);border-radius:8px;padding:0.9rem 1rem;margin-bottom:14px;font-size:0.84rem;color:var(--muted);line-height:1.7;"></div>
 
         <label style="font-size:0.8rem;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px;">Number of machines on site</label>
-        <select>
+        <select name="num_machines">
           <option value="">— Number of machines —</option>
           <option>1 machine</option>
           <option>2 machines</option>
@@ -1674,7 +1674,7 @@ function updateContractDescription(val) {
         </select>
 
         <label style="font-size:0.8rem;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px;">Number of sites</label>
-        <select>
+        <select name="num_sites">
           <option value="">— Number of sites —</option>
           <option>1 site</option>
           <option>2–3 sites</option>
@@ -1682,7 +1682,7 @@ function updateContractDescription(val) {
           <option>10+ sites</option>
         </select>
 
-        <textarea rows="4" placeholder="Tell us about your machines — brand, model, age, and any known issues. The more detail, the better."></textarea>
+        <textarea name="message" rows="4" placeholder="Tell us about your machines — brand, model, age, and any known issues. The more detail, the better."></textarea>
 
         <button type="submit">Submit Contract Enquiry</button>
       </form>
@@ -1747,17 +1747,17 @@ function updateContractDescription(val) {
 
   <div class="form">
 
-    <form>
+    <form id="form-service">
 
-      <input placeholder="Name" required>
+      <input name="name" placeholder="Name" required>
 
-      <input placeholder="Company / Site" required>
+      <input name="company" placeholder="Company / Site" required>
 
-      <input placeholder="Phone" required>
+      <input name="phone" placeholder="Phone" required>
 
-      <input placeholder="Email" type="email" required>
+      <input name="email" type="email" placeholder="Email" required>
 
-      <select>
+      <select name="service_type">
 
         <option value="">— Select a service —</option>
 
@@ -1781,7 +1781,7 @@ function updateContractDescription(val) {
 
       </select>
 
-      <textarea rows="4" placeholder="Describe your machine / issue"></textarea>
+      <textarea name="message" rows="4" placeholder="Describe your machine / issue"></textarea>
 
       <div class="upload-area" id="uploadArea">
         <input type="file" id="mediaUpload" accept="image/*,video/*" multiple style="display:none;" onchange="handleUpload(this)">
@@ -2168,14 +2168,14 @@ function updateContractDescription(val) {
     <h2>Request a Spare Part</h2>
     <p class="sub">Tell us what you need and we'll get back to you with availability and pricing.</p>
     <div class="form">
-      <form>
-        <input placeholder="Name" required>
-        <input placeholder="Company / Site" required>
-        <input placeholder="Phone" required>
-        <input placeholder="Email" type="email" required>
-        <input placeholder="Machine Brand (e.g. La Marzocco)" required>
-        <input placeholder="Machine Model (e.g. Linea PB)" required>
-        <textarea rows="4" placeholder="Describe the part you need — include any part numbers if known"></textarea>
+      <form id="form-parts">
+        <input name="name" placeholder="Name" required>
+        <input name="company" placeholder="Company / Site" required>
+        <input name="phone" placeholder="Phone" required>
+        <input name="email" type="email" placeholder="Email" required>
+        <input name="machine_brand" placeholder="Machine Brand (e.g. La Marzocco)" required>
+        <input name="machine_model" placeholder="Machine Model (e.g. Linea PB)" required>
+        <textarea name="message" rows="4" placeholder="Describe the part you need — include any part numbers if known"></textarea>
         <button type="submit">Request Part</button>
       </form>
     </div>
@@ -2251,13 +2251,13 @@ function updateContractDescription(val) {
       <h2 style="font-family:var(--font-heading);font-size:2.2rem;color:#141009;margin-bottom:0.5rem;">Enquire About Used Machines</h2>
       <p class="sub">Tell us what you need and we'll come back to you with current and incoming stock.</p>
       <div class="form">
-        <form>
-          <input placeholder="Name" required>
-          <input placeholder="Company / Site" required>
-          <input placeholder="Phone" required>
-          <input placeholder="Email" type="email" required>
-          <input placeholder="Machine brand / model you're looking for (e.g. La Marzocco Linea 2 Group)">
-          <select>
+        <form id="form-used">
+          <input name="name" placeholder="Name" required>
+          <input name="company" placeholder="Company / Site" required>
+          <input name="phone" placeholder="Phone" required>
+          <input name="email" type="email" placeholder="Email" required>
+          <input name="machine_preference" placeholder="Machine brand / model you're looking for (e.g. La Marzocco Linea 2 Group)">
+          <select name="budget">
             <option value="">— Budget range —</option>
             <option>Under £1,000</option>
             <option>£1,000 – £2,500</option>
@@ -2265,7 +2265,7 @@ function updateContractDescription(val) {
             <option>£5,000 – £10,000</option>
             <option>Over £10,000</option>
           </select>
-          <textarea rows="4" placeholder="Any other requirements — number of groups, grinder needed, condition preference, timeline, etc."></textarea>
+          <textarea name="message" rows="4" placeholder="Any other requirements — number of groups, grinder needed, condition preference, timeline, etc."></textarea>
           <button type="submit">Submit Enquiry</button>
         </form>
       </div>
@@ -2373,14 +2373,14 @@ function updateContractDescription(val) {
       <h2 style="font-family:var(--font-heading);font-size:2.2rem;color:#141009;margin-bottom:0.5rem;">Start Your Sourcing Request</h2>
       <p class="sub">The more detail you can give us, the better our recommendation. We'll respond within one working day.</p>
       <div class="form">
-        <form>
-          <input placeholder="Name" required>
-          <input placeholder="Company / Site" required>
-          <input placeholder="Phone" required>
-          <input placeholder="Email" type="email" required>
-          <input placeholder="Type of business (e.g. café, hotel, office, restaurant)">
-          <input placeholder="Approximate daily coffee volume (e.g. 100 cups/day)">
-          <select>
+        <form id="form-newmachine">
+          <input name="name" placeholder="Name" required>
+          <input name="company" placeholder="Company / Site" required>
+          <input name="phone" placeholder="Phone" required>
+          <input name="email" type="email" placeholder="Email" required>
+          <input name="business_type" placeholder="Type of business (e.g. café, hotel, office, restaurant)">
+          <input name="coffee_volume" placeholder="Approximate daily coffee volume (e.g. 100 cups/day)">
+          <select name="machine_type">
             <option value="">— Machine type preference —</option>
             <option>Traditional espresso machine</option>
             <option>Bean-to-cup / super-automatic</option>
@@ -2388,7 +2388,7 @@ function updateContractDescription(val) {
             <option>Espresso machine + grinder package</option>
             <option>Not sure — happy to be advised</option>
           </select>
-          <select>
+          <select name="budget">
             <option value="">— Budget range —</option>
             <option>Under £2,000</option>
             <option>£2,000 – £5,000</option>
@@ -2396,7 +2396,7 @@ function updateContractDescription(val) {
             <option>£10,000 – £20,000</option>
             <option>Over £20,000</option>
           </select>
-          <select>
+          <select name="group_heads">
             <option value="">— Number of group heads needed —</option>
             <option>1 Group</option>
             <option>2 Group</option>
@@ -2404,7 +2404,7 @@ function updateContractDescription(val) {
             <option>4+ Group</option>
             <option>Not sure</option>
           </select>
-          <textarea rows="4" placeholder="Anything else we should know — preferred brands, timeline, grinder needed, site specifics, etc."></textarea>
+          <textarea name="message" rows="4" placeholder="Anything else we should know — preferred brands, timeline, grinder needed, site specifics, etc."></textarea>
           <button type="submit">Submit Sourcing Request</button>
         </form>
       </div>
@@ -2543,6 +2543,100 @@ function showTab(tab, e) {
     window.scrollTo({top:0, behavior:'smooth'});
   }
 }
+</script>
+
+<!-- ========================================================
+     EmailJS — sends all forms to info@pragmaticukservices.co.uk
+     Setup steps (one-time, free):
+       1. Sign up at https://www.emailjs.com
+       2. Add an Email Service (Gmail, Outlook, SMTP, etc.) → copy the Service ID
+       3. Create an Email Template — use {{subject}}, {{from_name}}, {{from_email}}, {{body}}
+          as template variables → copy the Template ID
+       4. Go to Account → API Keys → copy your Public Key
+       5. Replace the three placeholder values below with your real IDs
+======================================================== -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+(function(){
+
+  // ── CONFIGURE THESE THREE VALUES ──────────────────────────────────────
+  var EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // Account > API Keys
+  var EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // Email Services
+  var EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // Email Templates
+  // ──────────────────────────────────────────────────────────────────────
+
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+  // Map form id → human-readable subject line
+  var formConfig = {
+    'form-contract'  : 'Contract Enquiry',
+    'form-service'   : 'Service / Quote Request',
+    'form-parts'     : 'Spare Parts Request',
+    'form-used'      : 'Used Machine Enquiry',
+    'form-newmachine': 'New Machine Sourcing Request'
+  };
+
+  function collectFields(form) {
+    var lines = [];
+    form.querySelectorAll('input[name], select[name], textarea[name]').forEach(function(el) {
+      var label = el.name.replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
+      var val = el.value.trim();
+      if (val) lines.push(label + ': ' + val);
+    });
+    return lines.join('\n');
+  }
+
+  function setButtonState(btn, state) {
+    if (state === 'loading') {
+      btn.disabled = true;
+      btn.dataset.orig = btn.textContent;
+      btn.textContent = 'Sending…';
+    } else if (state === 'success') {
+      btn.textContent = '✓ Sent — we\'ll be in touch soon';
+      btn.style.background = '#1a7a4a';
+    } else if (state === 'error') {
+      btn.disabled = false;
+      btn.textContent = btn.dataset.orig || 'Submit';
+      alert('Sorry, something went wrong. Please try again or call us on 07393 025927.');
+    }
+  }
+
+  Object.keys(formConfig).forEach(function(formId) {
+    var form = document.getElementById(formId);
+    if (!form) return;
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var btn = form.querySelector('button[type="submit"]');
+      setButtonState(btn, 'loading');
+
+      var nameField  = form.querySelector('[name="name"]');
+      var emailField = form.querySelector('[name="email"]');
+
+      var params = {
+        subject    : 'Website Enquiry — ' + formConfig[formId],
+        from_name  : nameField  ? nameField.value.trim()  : 'Website Visitor',
+        from_email : emailField ? emailField.value.trim() : '',
+        to_email   : 'info@pragmaticukservices.co.uk',
+        body       : collectFields(form)
+      };
+
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params)
+        .then(function() {
+          setButtonState(btn, 'success');
+          form.reset();
+          // Reset contract description panel if present
+          var desc = document.getElementById('contractDesc');
+          if (desc) desc.style.display = 'none';
+        })
+        .catch(function(err) {
+          console.error('EmailJS error:', err);
+          setButtonState(btn, 'error');
+        });
+    });
+  });
+
+})();
 </script>
 
 </body>
