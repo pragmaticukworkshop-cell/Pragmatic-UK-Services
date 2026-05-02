@@ -1363,14 +1363,37 @@ function handleUpload(input) {
   if (!input.files.length) { preview.style.display = 'none'; return; }
   preview.style.display = 'block';
   preview.style.marginTop = '0.8rem';
+
+  const MAX_VIDEO_SIZE = 5 * 1024 * 1024; // 5MB
+  let hasOversized = false;
+
   Array.from(input.files).forEach(file => {
     const isVideo = file.type.startsWith('video/');
+    const oversized = isVideo && file.size > MAX_VIDEO_SIZE;
+    if (oversized) hasOversized = true;
     const icon = isVideo
       ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>'
       : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>';
     const name = file.name.length > 28 ? file.name.slice(0,25)+'...' : file.name;
-    preview.innerHTML += `<span class="upload-preview-item">${icon} ${name}</span>`;
+    const sizeWarning = oversized ? ' <span style="color:#c0392b;font-size:0.75rem;font-weight:600;">Too large (max 5MB)</span>' : '';
+    preview.innerHTML += `<span class="upload-preview-item">${icon} ${name}${sizeWarning}</span>`;
   });
+
+  const submitBtn = document.querySelector('#form-service button[type="submit"]');
+  let warningEl = document.getElementById('uploadSizeWarning');
+  if (hasOversized) {
+    if (!warningEl) {
+      warningEl = document.createElement('p');
+      warningEl.id = 'uploadSizeWarning';
+      warningEl.style.cssText = 'color:#c0392b;font-size:0.82rem;margin:0.5rem 0 0;font-weight:600;';
+      warningEl.textContent = 'One or more videos exceed 5MB. Please trim the clip or email it directly to info@pragmaticukservices.co.uk';
+      preview.after(warningEl);
+    }
+    if (submitBtn) submitBtn.disabled = true;
+  } else {
+    if (warningEl) warningEl.remove();
+    if (submitBtn) submitBtn.disabled = false;
+  }
 }
  
 // Drag-and-drop support
@@ -1789,7 +1812,7 @@ function updateContractDescription(val) {
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
           </div>
           <p style="font-weight:600;color:#1e140a;margin:0.4rem 0 0.2rem;font-size:0.95rem;">Upload photos or video of the fault</p>
-          <p style="font-size:0.8rem;color:var(--muted);margin:0;">Images &amp; video accepted &middot; Multiple files allowed</p>
+          <p style="font-size:0.8rem;color:var(--muted);margin:0;">Images &amp; video accepted &middot; Multiple files &middot; Videos max 5MB</p>
         </label>
         <div id="uploadPreview" style="margin-top:0;display:none;"></div>
       </div>
@@ -2547,18 +2570,14 @@ function showTab(tab, e) {
 <!-- ========================================================
      Formsubmit.co — sends all forms to info@pragmaticukservices.co.uk
      File attachments supported (photos & videos only)
-     NOTE: First submission triggers a one-time confirmation email
-     to info@pragmaticukservices.co.uk — click the link to activate.
+     NOTE: First submission will trigger a one-time confirmation
+     email to info@pragmaticukservices.co.uk — click the link to activate.
 ======================================================== -->
-
-<!-- Hidden iframe to capture Formsubmit redirect (keeps user on page) -->
-<iframe name="formsubmit-hidden" style="display:none;"></iframe>
-
 <script>
 (function(){
-
+ 
   var FORMSUBMIT_EMAIL = 'info@pragmaticukservices.co.uk';
-
+ 
   var formConfig = {
     'form-contract'  : 'Contract Enquiry',
     'form-service'   : 'Service / Quote Request',
@@ -2566,58 +2585,74 @@ function showTab(tab, e) {
     'form-used'      : 'Used Machine Enquiry',
     'form-newmachine': 'New Machine Sourcing Request'
   };
-
+ 
+  function setButtonState(btn, state) {
+    if (state === 'loading') {
+      btn.disabled = true;
+      btn.dataset.orig = btn.textContent;
+      btn.textContent = 'Sending…';
+    } else if (state === 'success') {
+      btn.textContent = '✓ Sent — we\'ll be in touch soon';
+      btn.style.background = '#1a7a4a';
+    } else if (state === 'error') {
+      btn.disabled = false;
+      btn.textContent = btn.dataset.orig || 'Submit';
+      alert('Sorry, something went wrong. Please try again or call us on 07393 025927.');
+    }
+  }
+ 
   Object.keys(formConfig).forEach(function(formId) {
     var form = document.getElementById(formId);
     if (!form) return;
-
-    // Point form directly at Formsubmit — required for file attachments
-    form.setAttribute('action', 'https://formsubmit.co/' + FORMSUBMIT_EMAIL);
-    form.setAttribute('method', 'POST');
+ 
+    // Set enctype for file uploads
     form.setAttribute('enctype', 'multipart/form-data');
-    form.setAttribute('target', 'formsubmit-hidden');
-
-    // Add hidden config fields
-    function addHidden(name, value) {
-      if (form.querySelector('input[name="' + name + '"]')) return;
-      var inp = document.createElement('input');
-      inp.type = 'hidden';
-      inp.name = name;
-      inp.value = value;
-      form.appendChild(inp);
-    }
-    addHidden('_subject', 'Website Enquiry — ' + formConfig[formId]);
-    addHidden('_captcha', 'false');
-    addHidden('_template', 'table');
-    addHidden('_next', 'false'); // prevent redirect
-
-    var btn = form.querySelector('button[type="submit"]');
-
-    form.addEventListener('submit', function() {
-      // Show sending state
-      if (btn) {
-        btn.disabled = true;
-        btn.dataset.orig = btn.textContent;
-        btn.textContent = 'Sending…';
+ 
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var btn = form.querySelector('button[type="submit"]');
+      setButtonState(btn, 'loading');
+ 
+      var formData = new FormData(form);
+ 
+      // Add Formsubmit hidden config fields
+      formData.append('_subject', 'Website Enquiry — ' + formConfig[formId]);
+      formData.append('_captcha', 'false');
+      formData.append('_template', 'table');
+ 
+      // Attach the file upload if present
+      var fileInput = form.querySelector('input[type="file"]');
+      if (fileInput && fileInput.files.length > 0) {
+        Array.from(fileInput.files).forEach(function(file, i) {
+          formData.append('attachment' + (i > 0 ? i : ''), file);
+        });
       }
-
-      // After short delay show success (form has submitted to iframe)
-      setTimeout(function() {
-        if (btn) {
-          btn.textContent = '✓ Sent — we\'ll be in touch soon';
-          btn.style.background = '#1a7a4a';
+ 
+      fetch('https://formsubmit.co/' + FORMSUBMIT_EMAIL, {
+        method : 'POST',
+        body   : formData
+      })
+      .then(function(res) {
+        if (res.ok) {
+          setButtonState(btn, 'success');
+          form.reset();
+          // Reset upload preview if present
+          var preview = document.getElementById('uploadPreview');
+          if (preview) { preview.innerHTML = ''; preview.style.display = 'none'; }
+          // Reset contract description panel if present
+          var desc = document.getElementById('contractDesc');
+          if (desc) desc.style.display = 'none';
+        } else {
+          throw new Error('Submission failed');
         }
-        form.reset();
-        // Reset upload preview if present
-        var preview = document.getElementById('uploadPreview');
-        if (preview) { preview.innerHTML = ''; preview.style.display = 'none'; }
-        // Reset contract description panel if present
-        var desc = document.getElementById('contractDesc');
-        if (desc) desc.style.display = 'none';
-      }, 2000);
+      })
+      .catch(function(err) {
+        console.error('Formsubmit error:', err);
+        setButtonState(btn, 'error');
+      });
     });
   });
-
+ 
 })();
 </script>
  
