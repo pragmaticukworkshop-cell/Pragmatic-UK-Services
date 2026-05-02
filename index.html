@@ -2546,28 +2546,13 @@ function showTab(tab, e) {
 </script>
 
 <!-- ========================================================
-     EmailJS — sends all forms to info@pragmaticukservices.co.uk
-     Setup steps (one-time, free):
-       1. Sign up at https://www.emailjs.com
-       2. Add an Email Service (Gmail, Outlook, SMTP, etc.) → copy the Service ID
-       3. Create an Email Template — use {{subject}}, {{from_name}}, {{from_email}}, {{body}}
-          as template variables → copy the Template ID
-       4. Go to Account → API Keys → copy your Public Key
-       5. Replace the three placeholder values below with your real IDs
+     Web3Forms — sends all forms to info@pragmaticukservices.co.uk
 ======================================================== -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 (function(){
 
-  // ── CONFIGURE THESE THREE VALUES ──────────────────────────────────────
-  var EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // Account > API Keys
-  var EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // Email Services
-  var EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // Email Templates
-  // ──────────────────────────────────────────────────────────────────────
+  var WEB3FORMS_KEY = '5dbf962a-28c0-48c2-830e-ecd237c1757e';
 
-  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-
-  // Map form id → human-readable subject line
   var formConfig = {
     'form-contract'  : 'Contract Enquiry',
     'form-service'   : 'Service / Quote Request',
@@ -2579,6 +2564,7 @@ function showTab(tab, e) {
   function collectFields(form) {
     var lines = [];
     form.querySelectorAll('input[name], select[name], textarea[name]').forEach(function(el) {
+      if (el.name === 'access_key') return;
       var label = el.name.replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
       var val = el.value.trim();
       if (val) lines.push(label + ': ' + val);
@@ -2613,26 +2599,34 @@ function showTab(tab, e) {
       var nameField  = form.querySelector('[name="name"]');
       var emailField = form.querySelector('[name="email"]');
 
-      var params = {
+      var data = {
+        access_key : WEB3FORMS_KEY,
         subject    : 'Website Enquiry — ' + formConfig[formId],
         from_name  : nameField  ? nameField.value.trim()  : 'Website Visitor',
-        from_email : emailField ? emailField.value.trim() : '',
-        to_email   : 'info@pragmaticukservices.co.uk',
-        body       : collectFields(form)
+        email      : emailField ? emailField.value.trim() : '',
+        message    : collectFields(form)
       };
 
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params)
-        .then(function() {
+      fetch('https://api.web3forms.com/submit', {
+        method  : 'POST',
+        headers : { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body    : JSON.stringify(data)
+      })
+      .then(function(res){ return res.json(); })
+      .then(function(json) {
+        if (json.success) {
           setButtonState(btn, 'success');
           form.reset();
-          // Reset contract description panel if present
           var desc = document.getElementById('contractDesc');
           if (desc) desc.style.display = 'none';
-        })
-        .catch(function(err) {
-          console.error('EmailJS error:', err);
-          setButtonState(btn, 'error');
-        });
+        } else {
+          throw new Error(json.message || 'Submission failed');
+        }
+      })
+      .catch(function(err) {
+        console.error('Web3Forms error:', err);
+        setButtonState(btn, 'error');
+      });
     });
   });
 
