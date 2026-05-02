@@ -1784,8 +1784,7 @@ function updateContractDescription(val) {
       <textarea name="message" rows="4" placeholder="Describe your machine / issue"></textarea>
 
       <div class="upload-area" id="uploadArea">
-        <input type="file" id="mediaUpload" accept="image/*,video/*" multiple style="display:none;" onchange="handleUpload(this)">
-        <label for="mediaUpload" style="cursor:pointer;display:block;">
+        <input type="file" id="mediaUpload" name="attachment" accept="image/jpeg,image/png,image/gif,image/webp,video/mp4,video/quicktime,video/x-msvideo,video/webm" multiple style="display:none;" onchange="handleUpload(this)">        <label for="mediaUpload" style="cursor:pointer;display:block;">
           <div class="upload-icon">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
           </div>
@@ -2546,12 +2545,15 @@ function showTab(tab, e) {
 </script>
 
 <!-- ========================================================
-     Web3Forms — sends all forms to info@pragmaticukservices.co.uk
+     Formsubmit.co — sends all forms to info@pragmaticukservices.co.uk
+     File attachments supported (photos & videos only)
+     NOTE: First submission will trigger a one-time confirmation
+     email to info@pragmaticukservices.co.uk — click the link to activate.
 ======================================================== -->
 <script>
 (function(){
 
-  var WEB3FORMS_KEY = '5dbf962a-28c0-48c2-830e-ecd237c1757e';
+  var FORMSUBMIT_EMAIL = 'info@pragmaticukservices.co.uk';
 
   var formConfig = {
     'form-contract'  : 'Contract Enquiry',
@@ -2560,17 +2562,6 @@ function showTab(tab, e) {
     'form-used'      : 'Used Machine Enquiry',
     'form-newmachine': 'New Machine Sourcing Request'
   };
-
-  function collectFields(form) {
-    var lines = [];
-    form.querySelectorAll('input[name], select[name], textarea[name]').forEach(function(el) {
-      if (el.name === 'access_key') return;
-      var label = el.name.replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
-      var val = el.value.trim();
-      if (val) lines.push(label + ': ' + val);
-    });
-    return lines.join('\n');
-  }
 
   function setButtonState(btn, state) {
     if (state === 'loading') {
@@ -2591,40 +2582,49 @@ function showTab(tab, e) {
     var form = document.getElementById(formId);
     if (!form) return;
 
+    // Set enctype for file uploads
+    form.setAttribute('enctype', 'multipart/form-data');
+
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       var btn = form.querySelector('button[type="submit"]');
       setButtonState(btn, 'loading');
 
-      var nameField  = form.querySelector('[name="name"]');
-      var emailField = form.querySelector('[name="email"]');
+      var formData = new FormData(form);
 
-      var data = {
-        access_key : WEB3FORMS_KEY,
-        subject    : 'Website Enquiry — ' + formConfig[formId],
-        from_name  : nameField  ? nameField.value.trim()  : 'Website Visitor',
-        email      : emailField ? emailField.value.trim() : '',
-        message    : collectFields(form)
-      };
+      // Add Formsubmit hidden config fields
+      formData.append('_subject', 'Website Enquiry — ' + formConfig[formId]);
+      formData.append('_captcha', 'false');
+      formData.append('_template', 'table');
 
-      fetch('https://api.web3forms.com/submit', {
-        method  : 'POST',
-        headers : { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body    : JSON.stringify(data)
+      // Attach the file upload if present
+      var fileInput = form.querySelector('input[type="file"]');
+      if (fileInput && fileInput.files.length > 0) {
+        Array.from(fileInput.files).forEach(function(file, i) {
+          formData.append('attachment' + (i > 0 ? i : ''), file);
+        });
+      }
+
+      fetch('https://formsubmit.co/' + FORMSUBMIT_EMAIL, {
+        method : 'POST',
+        body   : formData
       })
-      .then(function(res){ return res.json(); })
-      .then(function(json) {
-        if (json.success) {
+      .then(function(res) {
+        if (res.ok) {
           setButtonState(btn, 'success');
           form.reset();
+          // Reset upload preview if present
+          var preview = document.getElementById('uploadPreview');
+          if (preview) { preview.innerHTML = ''; preview.style.display = 'none'; }
+          // Reset contract description panel if present
           var desc = document.getElementById('contractDesc');
           if (desc) desc.style.display = 'none';
         } else {
-          throw new Error(json.message || 'Submission failed');
+          throw new Error('Submission failed');
         }
       })
       .catch(function(err) {
-        console.error('Web3Forms error:', err);
+        console.error('Formsubmit error:', err);
         setButtonState(btn, 'error');
       });
     });
