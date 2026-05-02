@@ -2547,14 +2547,18 @@ function showTab(tab, e) {
 <!-- ========================================================
      Formsubmit.co — sends all forms to info@pragmaticukservices.co.uk
      File attachments supported (photos & videos only)
-     NOTE: First submission will trigger a one-time confirmation
-     email to info@pragmaticukservices.co.uk — click the link to activate.
+     NOTE: First submission triggers a one-time confirmation email
+     to info@pragmaticukservices.co.uk — click the link to activate.
 ======================================================== -->
+
+<!-- Hidden iframe to capture Formsubmit redirect (keeps user on page) -->
+<iframe name="formsubmit-hidden" style="display:none;"></iframe>
+
 <script>
 (function(){
- 
+
   var FORMSUBMIT_EMAIL = 'info@pragmaticukservices.co.uk';
- 
+
   var formConfig = {
     'form-contract'  : 'Contract Enquiry',
     'form-service'   : 'Service / Quote Request',
@@ -2562,74 +2566,58 @@ function showTab(tab, e) {
     'form-used'      : 'Used Machine Enquiry',
     'form-newmachine': 'New Machine Sourcing Request'
   };
- 
-  function setButtonState(btn, state) {
-    if (state === 'loading') {
-      btn.disabled = true;
-      btn.dataset.orig = btn.textContent;
-      btn.textContent = 'Sending…';
-    } else if (state === 'success') {
-      btn.textContent = '✓ Sent — we\'ll be in touch soon';
-      btn.style.background = '#1a7a4a';
-    } else if (state === 'error') {
-      btn.disabled = false;
-      btn.textContent = btn.dataset.orig || 'Submit';
-      alert('Sorry, something went wrong. Please try again or call us on 07393 025927.');
-    }
-  }
- 
+
   Object.keys(formConfig).forEach(function(formId) {
     var form = document.getElementById(formId);
     if (!form) return;
- 
-    // Set enctype for file uploads
+
+    // Point form directly at Formsubmit — required for file attachments
+    form.setAttribute('action', 'https://formsubmit.co/' + FORMSUBMIT_EMAIL);
+    form.setAttribute('method', 'POST');
     form.setAttribute('enctype', 'multipart/form-data');
- 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      var btn = form.querySelector('button[type="submit"]');
-      setButtonState(btn, 'loading');
- 
-      var formData = new FormData(form);
- 
-      // Add Formsubmit hidden config fields
-      formData.append('_subject', 'Website Enquiry — ' + formConfig[formId]);
-      formData.append('_captcha', 'false');
-      formData.append('_template', 'table');
- 
-      // Attach the file upload if present
-      var fileInput = form.querySelector('input[type="file"]');
-      if (fileInput && fileInput.files.length > 0) {
-        Array.from(fileInput.files).forEach(function(file, i) {
-          formData.append('attachment' + (i > 0 ? i : ''), file);
-        });
+    form.setAttribute('target', 'formsubmit-hidden');
+
+    // Add hidden config fields
+    function addHidden(name, value) {
+      if (form.querySelector('input[name="' + name + '"]')) return;
+      var inp = document.createElement('input');
+      inp.type = 'hidden';
+      inp.name = name;
+      inp.value = value;
+      form.appendChild(inp);
+    }
+    addHidden('_subject', 'Website Enquiry — ' + formConfig[formId]);
+    addHidden('_captcha', 'false');
+    addHidden('_template', 'table');
+    addHidden('_next', 'false'); // prevent redirect
+
+    var btn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', function() {
+      // Show sending state
+      if (btn) {
+        btn.disabled = true;
+        btn.dataset.orig = btn.textContent;
+        btn.textContent = 'Sending…';
       }
- 
-      fetch('https://formsubmit.co/' + FORMSUBMIT_EMAIL, {
-        method : 'POST',
-        body   : formData
-      })
-      .then(function(res) {
-        if (res.ok) {
-          setButtonState(btn, 'success');
-          form.reset();
-          // Reset upload preview if present
-          var preview = document.getElementById('uploadPreview');
-          if (preview) { preview.innerHTML = ''; preview.style.display = 'none'; }
-          // Reset contract description panel if present
-          var desc = document.getElementById('contractDesc');
-          if (desc) desc.style.display = 'none';
-        } else {
-          throw new Error('Submission failed');
+
+      // After short delay show success (form has submitted to iframe)
+      setTimeout(function() {
+        if (btn) {
+          btn.textContent = '✓ Sent — we\'ll be in touch soon';
+          btn.style.background = '#1a7a4a';
         }
-      })
-      .catch(function(err) {
-        console.error('Formsubmit error:', err);
-        setButtonState(btn, 'error');
-      });
+        form.reset();
+        // Reset upload preview if present
+        var preview = document.getElementById('uploadPreview');
+        if (preview) { preview.innerHTML = ''; preview.style.display = 'none'; }
+        // Reset contract description panel if present
+        var desc = document.getElementById('contractDesc');
+        if (desc) desc.style.display = 'none';
+      }, 2000);
     });
   });
- 
+
 })();
 </script>
  
