@@ -1215,6 +1215,83 @@ html, body { overflow-x: hidden; }
   .coverage-regions { grid-template-columns: 1fr 1fr; }
 }
 
+ /* --- NEW IMPROVEMENTS: EMERGENCY CALL & WORKSHOP GALLERY --- */
+
+/* Floating Mobile Call Button (Immediate Update) */
+.mobile-call-cta {
+  display: none; /* Hidden by default on desktop */
+  position: fixed;
+  bottom: 25px;
+  left: 20px;
+  z-index: 10000;
+}
+
+.mobile-call-cta a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #e11d48; /* Premium Red for urgency */
+  color: #ffffff;
+  font-weight: 700;
+  padding: 14px 24px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 1rem;
+  box-shadow: 0 10px 25px rgba(225, 29, 72, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.mobile-call-cta a:active {
+  transform: scale(0.95);
+}
+
+/* Workshop Gallery Grid (Short-Term Update) */
+.workshop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.workshop-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.workshop-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow);
+}
+
+.workshop-card img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 1.25rem;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+
+.workshop-card h4 {
+  color: var(--gold);
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive Rules */
+@media (max-width: 768px) {
+  .mobile-call-cta {
+    display: block; /* Shows button only on mobile */
+  }
+  
+  .workshop-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+ 
 </style>
  
 </head>
@@ -1256,6 +1333,40 @@ html, body { overflow-x: hidden; }
     </svg>
     </a>
   </div>
+<section class="section" id="workshop-gallery" style="padding-top: 4rem;">
+  <div style="text-align:center; margin-bottom: 2rem;">
+    <h2 style="font-family: var(--font-heading); font-size: 2.5rem; color: var(--dark);">Our Essex Workshop</h2>
+    <p class="sub" style="max-width: 700px; margin: 0 auto; color: var(--muted);">
+      Precision engineering for your coffee equipment. From deep descaling to major restorations, your machines are in expert hands.
+    </p>
+  </div>
+
+  <div class="workshop-grid">
+    <div class="card workshop-card">
+      <img src="workshop-1.jpg" alt="Commercial Coffee Machine Descaling">
+      <h4>Professional Descaling</h4>
+      <p style="font-size:0.95rem; color: var(--muted);">
+        Our workshop features specialized acid baths to remove heavy scale build-up, restoring flow and thermal stability to your boilers and groups.
+      </p>
+    </div>
+
+    <div class="card workshop-card">
+      <img src="workshop-2.jpg" alt="Coffee Machine Testing Bench">
+      <h4>Rigorous Testing</h4>
+      <p style="font-size:0.95rem; color: var(--muted);">
+        Every machine undergoes a 24-hour diagnostic test, checking pressure, temperature stability, and seal integrity before being signed off.
+      </p>
+    </div>
+
+    <div class="card workshop-card">
+      <img src="workshop-3.jpg" alt="Coffee Machine Engineer at work">
+      <h4>Expert Engineering</h4>
+      <p style="font-size:0.95rem; color: var(--muted);">
+        With over 10 years of experience, we handle everything from standard preventative maintenance to complex electrical and hydraulic overhauls.
+      </p>
+    </div>
+  </div>
+</section>
  
   <button class="nav-hamburger" id="navHamburger" aria-label="Menu" onclick="toggleNav()">
     <span></span><span></span><span></span>
