@@ -1015,12 +1015,24 @@ input, select, textarea {
     position: sticky;
     top: 0;
     z-index: 999;
+    align-items: center;
+    justify-content: space-between;
+  }
+  nav > div:first-child {
+    flex: 1;
+    min-width: 0;
   }
   nav > div:first-child svg {
     width: 200px;
     height: 32px;
+    display: block;
   }
-  .nav-hamburger { display: flex; }
+  .nav-hamburger {
+    display: flex;
+    flex-shrink: 0;
+    margin-left: 12px;
+    align-self: center;
+  }
   .nav-links {
     display: none;
     width: 100%;
@@ -1141,6 +1153,8 @@ html, body { overflow-x: hidden; }
   /* Horizontal scroll prevention */
   * { max-width: 100%; }
   img, svg, canvas { max-width: 100%; }
+  /* Keep nav logo at its intended size */
+  nav > div:first-child svg { max-width: none; }
 
   /* All tab hero h1s */
   section h1 { font-size: 1.9rem !important; line-height: 1.15 !important; }
