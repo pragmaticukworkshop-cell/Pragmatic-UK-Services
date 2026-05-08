@@ -61,7 +61,9 @@ body{
  
   font-family:var(--font-body);
  
-  background:linear-gradient(180deg,#f9f6f0 0%,#ffffff 50%,#f7f1e6 100%);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cg transform='translate(90,90) rotate(25)'%3E%3Cellipse cx='0' cy='0' rx='26' ry='40' fill='%23c07d2a' opacity='0.055'/%3E%3Cellipse cx='-4' cy='-8' rx='11' ry='8' fill='%23e0a84e' opacity='0.03'/%3E%3Cpath d='M0,-37 C14,-10 14,10 0,37' fill='none' stroke='%23141009' stroke-width='3.5' stroke-linecap='round' opacity='0.04'/%3E%3C/g%3E%3C/svg%3E") repeat,
+    linear-gradient(180deg,#f9f6f0 0%,#ffffff 50%,#f7f1e6 100%);
  
   color:#1e140a;
  
@@ -134,6 +136,16 @@ nav a:hover{color:#fff;}
   font-weight:500;
 }
 .nav-tab-new.active-tab{
+  color:#141009 !important;
+  background:var(--gold);
+  padding:5px 12px;
+  border-radius:6px;
+}
+.nav-tab-about{
+  color:rgba(255,255,255,0.8) !important;
+  font-weight:500;
+}
+.nav-tab-about.active-tab{
   color:#141009 !important;
   background:var(--gold);
   padding:5px 12px;
@@ -753,8 +765,8 @@ button{
    COVERAGE MAP
 ========================= */
 .coverage-section{
-  background:var(--dark);
-  color:#fff;
+  background:transparent;
+  color:#1e140a;
   padding:5rem 1.5rem;
 }
 .coverage-inner{
@@ -775,12 +787,12 @@ button{
   margin-top:1.5rem;
 }
 .region-tag{
-  background:rgba(200,168,75,0.1);
-  border:1px solid rgba(200,168,75,0.25);
+  background:rgba(192,125,42,0.07);
+  border:1px solid rgba(192,125,42,0.2);
   border-radius:6px;
   padding:7px 12px;
   font-size:0.82rem;
-  color:rgba(255,255,255,0.8);
+  color:var(--muted);
   display:flex;
   align-items:center;
   gap:6px;
@@ -1032,12 +1044,101 @@ input, select, textarea {
   .coverage-regions { grid-template-columns: 1fr; }
 }
 
+/* =========================
+   ADDITIONAL MOBILE FIXES
+========================= */
+
+/* Prevent horizontal scroll */
+html, body { overflow-x: hidden; }
+
+/* Map grid — always responsive */
+.map-grid { grid-template-columns: 1fr 2fr; }
+
+/* Coverage inner — wider breakpoint already set in CSS */
+
+@media(max-width:768px) {
+
+  /* Horizontal scroll prevention */
+  * { max-width: 100%; }
+  img, svg, canvas { max-width: 100%; }
+
+  /* All tab hero h1s */
+  section h1 { font-size: 1.9rem !important; line-height: 1.15 !important; }
+
+  /* Inline section padding */
+  section[style*="padding:5rem"] {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+  section[style*="padding:4rem"] {
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+
+  /* Inline h2 and h1 sizes */
+  [style*="font-size:2.2rem"] { font-size: 1.65rem !important; }
+  [style*="font-size:2.4rem"] { font-size: 1.7rem !important; }
+  [style*="font-size:2.8rem"] { font-size: 1.9rem !important; line-height: 1.15 !important; }
+
+  /* Who We Work With — collapse to 1 col */
+  .two-col-grid { grid-template-columns: 1fr !important; }
+
+  /* Location map — collapse to 1 col */
+  .map-grid { grid-template-columns: 1fr !important; }
+
+  /* Why Choose Us cards — reduce minmax so they stack */
+  #why-us .grid,
+  [style*="minmax(280px"] { grid-template-columns: 1fr !important; }
+
+  /* Coverage inner */
+  .coverage-inner { grid-template-columns: 1fr !important; gap: 2rem !important; }
+
+  /* Service modal — slide up from bottom */
+  #serviceModal {
+    padding: 0 !important;
+    align-items: flex-end !important;
+  }
+  #modalBox {
+    border-radius: 20px 20px 0 0 !important;
+    max-height: 88vh !important;
+    overflow-y: auto !important;
+    padding: 28px 20px 32px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Contract enquiry form sections */
+  #contract-enquiry { padding: 3rem 1.2rem !important; }
+
+  /* Used / New machine grids */
+  [style*="minmax(280px"] { grid-template-columns: 1fr !important; }
+  [style*="minmax(260px"] { grid-template-columns: 1fr !important; }
+
+  /* Sticky CTA — ensure always visible */
+  .sticky-cta { display: block !important; }
+
+  /* Footer columns */
+  .footer-top { grid-template-columns: 1fr !important; }
+
+  /* Nav logo smaller on very small screens */
+  nav > div:first-child svg { width: 180px !important; height: 28px !important; }
+}
+
+@media(max-width:480px) {
+  section h1 { font-size: 1.6rem !important; }
+  [style*="font-size:2.2rem"] { font-size: 1.45rem !important; }
+  [style*="font-size:2.4rem"] { font-size: 1.5rem !important; }
+  [style*="font-size:2.8rem"] { font-size: 1.6rem !important; }
+  .two-col-grid { gap: 1rem !important; }
+  .coverage-regions { grid-template-columns: 1fr 1fr; }
+}
+
 </style>
  
 </head>
  
 <body>
- 
+
 <!-- NAV -->
  
 <nav>
@@ -1070,6 +1171,7 @@ input, select, textarea {
       <!-- Wordmark -->
       <text x="65" y="22" font-family="Georgia,serif" font-size="17" font-weight="700" fill="#ffffff" letter-spacing="0.3">Pragmatic UK Services</text>
       <text x="66" y="36" font-family="Arial,sans-serif" font-size="8.5" fill="#c07d2a" letter-spacing="2.2">COFFEE MACHINE SERVICE &amp; SUPPORT</text>
+    </svg>
     </a>
   </div>
  
@@ -1079,8 +1181,7 @@ input, select, textarea {
   <div class="nav-links" id="navLinks">
     <a href="#services" class="nav-tab" onclick="showTab('main',event);closeNav()">Services</a>
     <a href="#contracts" class="nav-tab" onclick="showTab('main',event);closeNav()">Contracts</a>
-    <a href="#how-it-works" class="nav-tab" onclick="showTab('main',event);closeNav()">How It Works</a>
-    <a href="#faq" class="nav-tab" onclick="showTab('main',event);closeNav()">FAQ</a>
+    <a href="#" class="nav-tab nav-tab-about" onclick="showTab('about',event);closeNav()">About Us</a>
     <a href="#" class="nav-tab nav-tab-parts" onclick="showTab('parts',event);closeNav()">Spare Parts</a>
     <a href="#" class="nav-tab nav-tab-used" onclick="showTab('used',event);closeNav()">Used Machines</a>
     <a href="#" class="nav-tab nav-tab-new" onclick="showTab('newmachines',event);closeNav()">Buy New</a>
@@ -1094,7 +1195,8 @@ input, select, textarea {
  
 <!-- HERO -->
  
-<section class="hero">
+<section class="hero" style="position:relative;">
+  <canvas id="heroCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:1;"></canvas>
  
   <h1>
  
@@ -1248,50 +1350,7 @@ input, select, textarea {
   </div>
 </div>
  
-<!-- WHO WE SERVE -->
-<section style="background:var(--dark);padding:5rem 1.5rem;">
-  <div style="max-width:1100px;margin:0 auto;">
-    <div style="text-align:center;margin-bottom:3rem;">
-      <span style="display:inline-block;background:var(--gold);color:#141009;font-size:0.75rem;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:1.2rem;">WHO WE WORK WITH</span>
-      <h2 style="font-family:var(--font-heading);font-size:2.2rem;color:#f0e8d0;margin-bottom:0.6rem;">One Machine or One Hundred —<em style="color:var(--gold-lt);font-style:normal;"> We've Got You Covered</em></h2>
-      <p style="color:rgba(255,255,255,0.5);max-width:580px;margin:0 auto;line-height:1.8;">Whether you're a single-site independent or a national operator running dozens of locations, our service scales to fit your operation — with the same level of care and expertise throughout.</p>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
- 
-      <!-- Independent -->
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(200,168,75,0.15);border-radius:16px;padding:2.2rem;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--gold),transparent);border-radius:3px 0 0 3px;"></div>
-        <div style="font-size:2rem;margin-bottom:1rem;">☕</div>
-        <h3 style="font-family:var(--font-heading);font-size:1.5rem;color:#f0e8d0;margin-bottom:0.7rem;">Independent Businesses</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:0.92rem;line-height:1.8;margin-bottom:1.2rem;">From the neighbourhood café to the boutique hotel — we understand that for small businesses, a broken machine means lost revenue. We respond fast, work efficiently, and treat every single client as a priority.</p>
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
-          <li style="color:rgba(255,255,255,0.6);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold);">→</span> Cafés & coffee shops</li>
-          <li style="color:rgba(255,255,255,0.6);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold);">→</span> Restaurants & bistros</li>
-          <li style="color:rgba(255,255,255,0.6);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold);">→</span> Boutique hotels & B&Bs</li>
-          <li style="color:rgba(255,255,255,0.6);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold);">→</span> Delicatessens & food halls</li>
-        </ul>
-      </div>
- 
-      <!-- Multi-site -->
-      <div style="background:rgba(192,125,42,0.08);border:1px solid rgba(200,168,75,0.25);border-radius:16px;padding:2.2rem;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--gold-lt),transparent);border-radius:3px 0 0 3px;"></div>
-        <div style="font-size:2rem;margin-bottom:1rem;">🏢</div>
-        <h3 style="font-family:var(--font-heading);font-size:1.5rem;color:#f0e8d0;margin-bottom:0.7rem;">Multi-Site Operators</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:0.92rem;line-height:1.8;margin-bottom:1.2rem;">Managing equipment across multiple locations demands a partner who can keep pace. We provide structured maintenance programmes, centralised reporting, and consistent service delivery — keeping every site running at peak performance.</p>
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
-          <li style="color:rgba(255,255,255,0.6);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold-lt);">→</span> Hotel groups & chains</li>
-          <li style="color:rgba(255,255,255,0.6);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold-lt);">→</span> Coffee shop franchises</li>
-          <li style="color:rgba(255,255,255,0.6);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold-lt);">→</span> Corporate offices & campuses</li>
-          <li style="color:rgba(255,255,255,0.6);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold-lt);">→</span> Catering & hospitality groups</li>
-        </ul>
-      </div>
- 
-    </div>
- 
-    <!-- Bottom reassurance line -->
-    <p style="text-align:center;margin-top:2.5rem;color:rgba(255,255,255,0.35);font-size:0.88rem;letter-spacing:0.5px;">Every client receives the same direct phone number and commitment to uptime — regardless of size.</p>
-  </div>
-</section>
+
  
 <!-- SERVICES -->
  
@@ -1399,7 +1458,7 @@ input, select, textarea {
         "On-site diagnosis and repair where possible",
         "Workshop collection arranged for complex faults",
         "Loan machine available for extended repair situations",
-        "Clear communication throughout — no hidden call-out fees"
+        "Clear communication throughout — you'll always know where things stand"
       ],
       note: "Priority response available for contract customers. Call 07393 025927 for immediate assistance."
     },
@@ -1559,95 +1618,6 @@ function updateContractDescription(val) {
  
 </section>
  
-<!-- PASSION SECTION -->
- 
-<section class="section" id="our-passion" style="background:var(--cream);padding:5rem 1.5rem;">
-  <div style="max-width:820px;margin:0 auto;text-align:center;">
-    <span style="display:inline-block;background:var(--gold);color:#141009;font-size:0.75rem;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:1.5rem;">OUR PHILOSOPHY</span>
-    <h2 style="font-family:var(--font-heading);font-size:2.4rem;color:#141009;margin-bottom:1.2rem;">Great coffee starts with great equipment</h2>
-    <p style="font-size:1.05rem;color:var(--muted);line-height:1.8;margin-bottom:1.5rem;">We believe the whole supply chain benefits when standards rise. That's why we don't just fix machines — we help businesses serve the best possible coffee to their customers, with equipment that's reliable, well-maintained, and perfectly suited to their needs.</p>
-    <p style="font-size:1.05rem;color:var(--muted);line-height:1.8;margin-bottom:2.5rem;">We welcome enquiries from across the UK and are always happy to discuss specific requirements — no project is too niche. Whether you need a professional espresso machine for a luxury domestic property, a compact bean-to-cup unit for a small independent café, or a large-scale rollout across multiple sites, Pragmatic UK Services is here to make it happen.</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;text-align:left;margin-top:1rem;">
-      <div style="background:#fff;border-radius:12px;padding:1.5rem;border:1px solid var(--border);">
-        <div style="font-size:1.4rem;margin-bottom:0.6rem;">☕</div>
-        <h4 style="font-weight:600;color:#141009;margin-bottom:0.4rem;">Independent Cafés</h4>
-        <p style="font-size:0.9rem;color:var(--muted);line-height:1.6;">Compact, reliable equipment and servicing tailored to smaller operations with big ambitions.</p>
-      </div>
-      <div style="background:#fff;border-radius:12px;padding:1.5rem;border:1px solid var(--border);">
-        <div style="font-size:1.4rem;margin-bottom:0.6rem;">🏨</div>
-        <h4 style="font-weight:600;color:#141009;margin-bottom:0.4rem;">Hospitality & Luxury</h4>
-        <p style="font-size:0.9rem;color:var(--muted);line-height:1.6;">Professional-grade installations for hotels, restaurants, and high-end domestic properties.</p>
-      </div>
-      <div style="background:#fff;border-radius:12px;padding:1.5rem;border:1px solid var(--border);">
-        <div style="font-size:1.4rem;margin-bottom:0.6rem;">🏢</div>
-        <h4 style="font-weight:600;color:#141009;margin-bottom:0.4rem;">Multi-Site Operators</h4>
-        <p style="font-size:0.9rem;color:var(--muted);line-height:1.6;">Bulk supply, fleet maintenance, and contract servicing for estates, offices, and chains.</p>
-      </div>
-    </div>
-  </div>
-</section>
- 
-<!-- WHY CHOOSE US -->
- 
-<section class="section" id="why-us" style="background:var(--dark);color:#fff;padding:5rem 1.5rem;">
-  <div style="max-width:1000px;margin:0 auto;">
-    <h2 style="font-family:var(--font-heading);font-size:2.2rem;text-align:center;color:#fff;">Why Choose Pragmatic?</h2>
-    <p style="text-align:center;color:rgba(255,255,255,0.6);margin:0.75rem auto 3rem;max-width:600px;">We're not a call centre. We're engineers who care about coffee — and about keeping your business running.</p>
- 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;">
- 
-      <div style="border:1px solid rgba(200,168,75,0.25);border-radius:12px;padding:2rem;position:relative;">
-        <div style="width:44px;height:44px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141009" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <h3 style="font-size:1.1rem;font-weight:600;color:#f0e8d0;margin-bottom:0.6rem;">Under 4-Hour Response</h3>
-        <p style="color:rgba(255,255,255,0.6);font-size:0.95rem;line-height:1.7;">When your machine goes down, every minute costs you. We aim to respond to every London call-out within 4 hours — and within 24 hours anywhere else across the UK.</p>
-      </div>
- 
-      <div style="border:1px solid rgba(200,168,75,0.25);border-radius:12px;padding:2rem;">
-        <div style="width:44px;height:44px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141009" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <h3 style="font-size:1.1rem;font-weight:600;color:#f0e8d0;margin-bottom:0.6rem;">98% First-Fix Rate</h3>
-        <p style="color:rgba(255,255,255,0.6);font-size:0.95rem;line-height:1.7;">Our engineers arrive prepared — carrying a comprehensive stock of parts for the most common faults, so most machines are fixed in a single visit.</p>
-      </div>
- 
-      <div style="border:1px solid rgba(200,168,75,0.25);border-radius:12px;padding:2rem;">
-        <div style="width:44px;height:44px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141009" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        </div>
-        <h3 style="font-size:1.1rem;font-weight:600;color:#f0e8d0;margin-bottom:0.6rem;">10+ Years of Experience</h3>
-        <p style="color:rgba(255,255,255,0.6);font-size:0.95rem;line-height:1.7;">Over a decade servicing commercial espresso equipment across the UK — from independent cafés to large hospitality groups and multi-site operators.</p>
-      </div>
- 
-      <div style="border:1px solid rgba(200,168,75,0.25);border-radius:12px;padding:2rem;">
-        <div style="width:44px;height:44px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141009" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
-        </div>
-        <h3 style="font-size:1.1rem;font-weight:600;color:#f0e8d0;margin-bottom:0.6rem;">UK-Wide Coverage</h3>
-        <p style="color:rgba(255,255,255,0.6);font-size:0.95rem;line-height:1.7;">Based in Essex, we cover the whole of the UK. Whether you're a single-site operator or managing dozens of locations, we can support you.</p>
-      </div>
- 
-      <div style="border:1px solid rgba(200,168,75,0.25);border-radius:12px;padding:2rem;">
-        <div style="width:44px;height:44px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141009" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-        </div>
-        <h3 style="font-size:1.1rem;font-weight:600;color:#f0e8d0;margin-bottom:0.6rem;">Transparent Pricing</h3>
-        <p style="color:rgba(255,255,255,0.6);font-size:0.95rem;line-height:1.7;">No hidden call-out fees, no surprise invoices. We assess your machine and give you a clear quote before any work begins — so you're always in control.</p>
-      </div>
- 
-      <div style="border:1px solid rgba(200,168,75,0.25);border-radius:12px;padding:2rem;">
-        <div style="width:44px;height:44px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141009" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/><path d="M7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>
-        </div>
-        <h3 style="font-size:1.1rem;font-weight:600;color:#f0e8d0;margin-bottom:0.6rem;">Brand Agnostic</h3>
-        <p style="color:rgba(255,255,255,0.6);font-size:0.95rem;line-height:1.7;">We work on all commercial coffee equipment — traditional espresso machines and bean-to-cup systems alike. La Marzocco, Astoria, Faema, La Cimbali, BFC, Conti, Mazzer, Expobar and more. No lock-in, no bias.</p>
-      </div>
- 
-    </div>
-  </div>
-</section>
- 
 <!-- HOW IT WORKS -->
 <section style="background:var(--bg);padding:5rem 1.5rem;" id="how-it-works">
   <div style="max-width:1000px;margin:0 auto;text-align:center;">
@@ -1658,12 +1628,12 @@ function updateContractDescription(val) {
       <div class="process-step">
         <div class="step-num">1</div>
         <h4>Get in Touch</h4>
-        <p>Fill in our enquiry form or call us directly. Tell us about your machine, your issue, and your location — and upload photos or video of the fault to help us assess it straight away.</p>
+        <p>Fill in our enquiry form or call us directly. Upload photos or video to help us assess the fault straight away.</p>
       </div>
       <div class="process-step">
         <div class="step-num">2</div>
         <h4>We Assess & Quote</h4>
-        <p>We'll review your images or video and diagnose the fault remotely where possible. In some cases we can walk you through a fix over the phone — saving you time and a call-out fee. If a visit is needed, we'll provide a clear, no-obligation quote before any work starts.</p>
+        <p>We diagnose remotely where possible and provide a clear, no-obligation quote before any work begins.</p>
       </div>
       <div class="process-step">
         <div class="step-num">3</div>
@@ -1679,35 +1649,9 @@ function updateContractDescription(val) {
   </div>
 </section>
  
-<!-- COVERAGE MAP -->
-<section class="coverage-section" id="coverage">
-  <div class="coverage-inner">
-    <div>
-      <span style="display:inline-block;background:rgba(200,168,75,0.2);color:var(--gold-lt);font-size:0.75rem;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:1.5rem;">UK COVERAGE</span>
-      <h2 style="font-family:var(--font-heading);font-size:2.2rem;color:#fff;margin-bottom:1rem;">We cover the entire UK — wherever you need us</h2>
-      <p style="color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:1.5rem;">Based in Essex, our engineers travel across the UK. We work with single-site independents and large multi-location operators — no job is too far.</p>
-      <p style="color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:2rem;">For emergency call-outs, our fastest response times are across London, the South East, East Anglia, and the Midlands — though no job anywhere in the UK is out of reach.</p>
-      <a class="btn" href="#form" style="display:inline-block;">Check Your Area</a>
-    </div>
-    <div>
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(200,168,75,0.2);border-radius:14px;padding:2rem;">
-        <p style="color:var(--gold-lt);font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:1.2rem;">Regions Covered</p>
-        <div class="coverage-regions">
-          <div class="region-tag">London</div>
-          <div class="region-tag">South East</div>
-          <div class="region-tag">East Anglia</div>
-          <div class="region-tag">East Midlands</div>
-          <div class="region-tag">West Midlands</div>
-          <div class="region-tag">South West</div>
-          <div class="region-tag">Yorkshire</div>
-          <div class="region-tag">North West</div>
-          <div class="region-tag">North East</div>
-        </div>
-        <p style="color:rgba(255,255,255,0.4);font-size:0.8rem;margin-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);padding-top:1rem;">📍 Based in Essex — fastest response across London & South East</p>
-      </div>
-    </div>
-  </div>
-</section>
+
+ 
+
  
 <!-- MAINTENANCE CONTRACTS -->
 <section style="padding:5rem 1.5rem;background:#fff;" id="contracts">
@@ -1715,10 +1659,7 @@ function updateContractDescription(val) {
     <span style="display:inline-block;background:var(--gold);color:#141009;font-size:0.75rem;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:1.5rem;">MAINTENANCE CONTRACTS</span>
     <h2 style="font-family:var(--font-heading);font-size:2.2rem;color:#141009;margin-bottom:0.5rem;">Keep your machines running</h2>
     <p style="color:var(--muted);margin-bottom:3rem;max-width:640px;">All contracts include a service log. Quarterly, Premium, and Enterprise contracts also include priority response and discounted parts. Prices on application.</p>
- 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;align-items:start;">
- 
-      <!-- ESSENTIAL -->
       <div class="card" style="border-top:3px solid var(--border);">
         <p style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:0.4rem;">Essential</p>
         <h3 style="font-family:var(--font-heading);font-size:1.5rem;color:#141009;margin-bottom:0.2rem;">Bi-annual</h3>
@@ -1732,8 +1673,6 @@ function updateContractDescription(val) {
         </div>
         <a href="#contract-enquiry" onclick="setTimeout(()=>{document.getElementById('contractTierSelect').value='essential';updateContractDescription('essential')},100)" class="btn" style="display:block;text-align:center;margin-top:1.5rem;font-size:0.85rem;padding:10px;">Get a Quote</a>
       </div>
- 
-      <!-- PROFESSIONAL -->
       <div class="card" style="border-top:3px solid var(--gold);position:relative;">
         <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:#141009;font-size:0.7rem;font-weight:700;padding:3px 12px;border-radius:20px;white-space:nowrap;letter-spacing:0.5px;">Most Popular</div>
         <p style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:0.4rem;">Professional</p>
@@ -1748,8 +1687,6 @@ function updateContractDescription(val) {
         </div>
         <a href="#contract-enquiry" onclick="setTimeout(()=>{document.getElementById('contractTierSelect').value='professional';updateContractDescription('professional')},100)" class="btn" style="display:block;text-align:center;margin-top:1.5rem;font-size:0.85rem;padding:10px;">Get a Quote</a>
       </div>
- 
-      <!-- PREMIUM -->
       <div class="card" style="border-top:3px solid var(--border);">
         <p style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:0.4rem;">Premium</p>
         <h3 style="font-family:var(--font-heading);font-size:1.5rem;color:#141009;margin-bottom:0.2rem;">Monthly</h3>
@@ -1763,8 +1700,6 @@ function updateContractDescription(val) {
         </div>
         <a href="#contract-enquiry" onclick="setTimeout(()=>{document.getElementById('contractTierSelect').value='monthly';updateContractDescription('monthly')},100)" class="btn" style="display:block;text-align:center;margin-top:1.5rem;font-size:0.85rem;padding:10px;">Get a Quote</a>
       </div>
- 
-      <!-- ENTERPRISE -->
       <div class="card" style="border-top:3px solid var(--dark);background:var(--dark);">
         <p style="font-size:0.7rem;color:rgba(200,168,75,0.7);text-transform:uppercase;letter-spacing:2px;margin-bottom:0.4rem;">Enterprise</p>
         <h3 style="font-family:var(--font-heading);font-size:1.5rem;color:#f0e8d0;margin-bottom:0.2rem;">Multi-site</h3>
@@ -1779,13 +1714,11 @@ function updateContractDescription(val) {
         </div>
         <a href="#contract-enquiry" onclick="setTimeout(()=>{document.getElementById('contractTierSelect').value='enterprise';updateContractDescription('enterprise')},100)" class="btn" style="display:block;text-align:center;margin-top:1.5rem;font-size:0.85rem;padding:10px;">Contact Us</a>
       </div>
- 
     </div>
     <p style="text-align:center;color:var(--muted);font-size:0.85rem;margin-top:1.5rem;">All contracts per site. Multi-site operators — contact us for bespoke pricing.</p>
   </div>
 </section>
- 
- 
+
 <!-- CONTRACT ENQUIRY FORM -->
 <section style="padding:5rem 1.5rem;background:var(--cream);" id="contract-enquiry">
   <div style="max-width:750px;margin:0 auto;">
@@ -1799,7 +1732,6 @@ function updateContractDescription(val) {
         <input name="phone" placeholder="Phone" required>
         <input name="email" type="email" placeholder="Email" required>
         <input name="address" placeholder="Site address / postcode" required>
- 
         <label style="font-size:0.8rem;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px;">Contract tier</label>
         <select name="contract_tier" id="contractTierSelect" onchange="updateContractDescription(this.value)">
           <option value="">— Select a contract —</option>
@@ -1808,84 +1740,25 @@ function updateContractDescription(val) {
           <option value="monthly">Premium — Monthly (12 visits/year)</option>
           <option value="enterprise">Enterprise — Multi-site / Bespoke schedule</option>
         </select>
- 
         <div id="contractDesc" style="display:none;background:#fffbf2;border:1px solid rgba(192,125,42,0.25);border-radius:8px;padding:0.9rem 1rem;margin-bottom:14px;font-size:0.84rem;color:var(--muted);line-height:1.7;"></div>
- 
         <label style="font-size:0.8rem;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px;">Number of machines on site</label>
         <select name="num_machines">
           <option value="">— Number of machines —</option>
-          <option>1 machine</option>
-          <option>2 machines</option>
-          <option>3 machines</option>
-          <option>4–6 machines</option>
-          <option>7–10 machines</option>
-          <option>10+ machines</option>
+          <option>1 machine</option><option>2 machines</option><option>3 machines</option>
+          <option>4–6 machines</option><option>7–10 machines</option><option>10+ machines</option>
         </select>
- 
         <label style="font-size:0.8rem;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px;">Number of sites</label>
         <select name="num_sites">
           <option value="">— Number of sites —</option>
-          <option>1 site</option>
-          <option>2–3 sites</option>
-          <option>4–10 sites</option>
-          <option>10+ sites</option>
+          <option>1 site</option><option>2–3 sites</option><option>4–10 sites</option><option>10+ sites</option>
         </select>
- 
-        <textarea name="message" rows="4" placeholder="Tell us about your machines — brand, model, age, and any known issues. The more detail, the better."></textarea>
- 
+        <textarea name="message" rows="4" placeholder="Tell us about your machines — brand, model, age, and any known issues."></textarea>
         <button type="submit">Submit Contract Enquiry</button>
       </form>
     </div>
   </div>
 </section>
- 
-<!-- FAQ -->
-<section style="padding:5rem 1.5rem;background:var(--bg);" id="faq">
-  <div style="max-width:780px;margin:0 auto;text-align:center;">
-    <span style="display:inline-block;background:var(--gold);color:#141009;font-size:0.75rem;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:1.5rem;">FAQ</span>
-    <h2 style="font-family:var(--font-heading);font-size:2.2rem;color:#141009;margin-bottom:0.5rem;">Common questions</h2>
-    <p style="color:var(--muted);margin-bottom:0;">Everything you need to know before getting in touch.</p>
-  </div>
-  <div class="faq-wrap">
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">Do you cover my area? <span class="faq-icon">+</span></button>
-      <div class="faq-a">We're based in Essex and cover the whole of the UK. Response times are fastest across London, the South East, and East Anglia, but we regularly travel for both emergency call-outs and scheduled maintenance contracts. Fill in the enquiry form and we'll confirm availability for your location.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">How much does a service or repair cost? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Pricing depends on the type of machine, the service required, and your location. We don't charge for quotes — we'll assess your machine and give you a clear, itemised price before any work begins. There are no hidden call-out fees or surprise invoices.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">What brands do you work on? <span class="faq-icon">+</span></button>
-      <div class="faq-a">We're brand agnostic and work on all major commercial espresso and bean-to-cup equipment. This includes La Marzocco, Nuova Simonelli, Victoria Arduino, Astoria, Faema, La Cimbali, BFC, Conti, Mazzer, Expobar, Franke, WMF, Schaerer, Mahlkönig, Rancilio, and many more. If you're unsure, just ask — we'll let you know.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">How quickly can you respond to an emergency? <span class="faq-icon">+</span></button>
-      <div class="faq-a">We aim to respond to London-based emergency call-outs within 4 hours. For anywhere else in the UK, we target a response within 24 hours. Contract customers receive priority response across all areas. Call us directly on 07393 025927 for the fastest possible response.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">Do you offer maintenance contracts? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Yes. We offer monthly, quarterly, and bi-annual preventative maintenance contracts for single and multi-site operators. Contract customers benefit from priority call-out response, discounted parts pricing, and a service log. Get in touch to discuss your requirements.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">Do I need to bring my machine to you, or do you come to us? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Both options are available. Many services — including emergency repairs, preventative maintenance, and installations — are carried out on-site at your location. For deep workshop services like descaling or decontamination, we can collect and return your machine, or you can drop it to our Essex workshop.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">Is a boiler inspection legally required? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Yes, for commercial espresso machines operating above certain pressure thresholds. The Pressure Systems Safety Regulations (PSSR) 2000 require that pressure systems are regularly inspected by a competent person and that a written scheme of examination is in place. We carry out PSSR-compliant boiler inspections and issue the required documentation.</div>
-    </div>
-  </div>
-  <script>
-  function toggleFaq(btn){
-    const item = btn.closest('.faq-item');
-    const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-    if(!isOpen) item.classList.add('open');
-  }
-  </script>
-</section>
- 
+
 <!-- FORM -->
  
 <section class="section" id="form">
@@ -1966,11 +1839,253 @@ function updateContractDescription(val) {
  
 </div><!-- end #page-main -->
  
+<!-- ABOUT US PAGE -->
+<div id="page-about" style="display:none;">
+
+  <!-- About Hero -->
+  <section style="background:radial-gradient(circle at top,rgba(224,168,78,0.18),transparent 60%),linear-gradient(135deg,#141009 0%,#1d160b 100%);color:#fff;text-align:center;padding:5rem 1.5rem;position:relative;overflow:hidden;">
+    <canvas class="section-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
+    <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(224,168,78,0.1),transparent 70%);top:-200px;right:-200px;border-radius:50%;"></div>
+    <span style="display:inline-block;background:rgba(200,168,75,0.2);color:var(--gold-lt);font-size:0.75rem;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:1.5rem;">ABOUT US</span>
+    <h1 style="font-family:var(--font-heading);font-size:2.8rem;line-height:1.1;">Engineers Who Care<br><em style="color:var(--gold-lt);">About Your Coffee</em></h1>
+    <p style="max-width:620px;margin:1rem auto 0;opacity:0.8;">Our philosophy, why we're different, who we work with, and where we cover — everything you need to know about Pragmatic UK Services.</p>
+  </section>
+
+  <!-- Our Philosophy -->
+  <section class="section" id="about-our-passion" style="background:var(--cream);padding:5rem 1.5rem;">
+    <div style="max-width:820px;margin:0 auto;text-align:center;">
+      <span style="display:inline-block;background:var(--gold);color:#141009;font-size:0.75rem;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:1.5rem;">OUR PHILOSOPHY</span>
+      <h2 style="font-family:var(--font-heading);font-size:2.4rem;color:#141009;margin-bottom:1.2rem;">Great coffee starts with great equipment</h2>
+      <p style="font-size:1.05rem;color:var(--muted);line-height:1.8;margin-bottom:2.5rem;">We don't just fix machines — we help businesses serve the best possible coffee with equipment that's reliable, well-maintained, and perfectly suited to their needs. No project is too niche, no client too small or too large.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;text-align:left;margin-top:1rem;">
+        <div style="background:#fff;border-radius:12px;padding:1.5rem;border:1px solid var(--border);">
+          <div style="font-size:1.4rem;margin-bottom:0.6rem;">☕</div>
+          <h4 style="font-weight:600;color:#141009;margin-bottom:0.4rem;">Independent Cafés</h4>
+          <p style="font-size:0.9rem;color:var(--muted);line-height:1.6;">Compact, reliable equipment and servicing tailored to smaller operations with big ambitions.</p>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:1.5rem;border:1px solid var(--border);">
+          <div style="font-size:1.4rem;margin-bottom:0.6rem;">🏨</div>
+          <h4 style="font-weight:600;color:#141009;margin-bottom:0.4rem;">Hospitality & Luxury</h4>
+          <p style="font-size:0.9rem;color:var(--muted);line-height:1.6;">Professional-grade installations for hotels, restaurants, and high-end domestic properties.</p>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:1.5rem;border:1px solid var(--border);">
+          <div style="font-size:1.4rem;margin-bottom:0.6rem;">🏢</div>
+          <h4 style="font-weight:600;color:#141009;margin-bottom:0.4rem;">Multi-Site Operators</h4>
+          <p style="font-size:0.9rem;color:var(--muted);line-height:1.6;">Bulk supply, fleet maintenance, and contract servicing for estates, offices, and chains.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section id="why-us" style="background:transparent;color:#1e140a;padding:5rem 1.5rem;">
+    <div style="max-width:1000px;margin:0 auto;">
+      <h2 style="font-family:var(--font-heading);font-size:2.2rem;text-align:center;color:#141009;">Why Choose Pragmatic?</h2>
+      <p style="text-align:center;color:var(--muted);margin:0.75rem auto 3rem;max-width:600px;">We're not a call centre. We're engineers who care about coffee — and about keeping your business running.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;">
+        <div style="border:1px solid var(--border);border-radius:12px;padding:2rem;background:#fff;">
+          <div style="width:44px;height:44px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141009" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3 style="font-size:1.1rem;font-weight:600;color:#141009;margin-bottom:0.6rem;">Under 4-Hour Response</h3>
+          <p style="color:var(--muted);font-size:0.95rem;line-height:1.7;">We aim to respond to every London call-out within 4 hours — and within 24 hours anywhere else across the UK.</p>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:12px;padding:2rem;background:#fff;">
+          <div style="width:44px;height:44px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141009" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 style="font-size:1.1rem;font-weight:600;color:#141009;margin-bottom:0.6rem;">98% First-Fix Rate</h3>
+          <p style="color:var(--muted);font-size:0.95rem;line-height:1.7;">Our engineers arrive prepared — carrying a comprehensive stock of parts for the most common faults, so most machines are fixed in a single visit.</p>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:12px;padding:2rem;background:#fff;">
+          <div style="width:44px;height:44px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141009" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <h3 style="font-size:1.1rem;font-weight:600;color:#141009;margin-bottom:0.6rem;">10+ Years of Experience</h3>
+          <p style="color:var(--muted);font-size:0.95rem;line-height:1.7;">Over a decade servicing commercial espresso equipment across the UK — from independent cafés to large hospitality groups.</p>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:12px;padding:2rem;background:#fff;">
+          <div style="width:44px;height:44px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141009" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+          </div>
+          <h3 style="font-size:1.1rem;font-weight:600;color:#141009;margin-bottom:0.6rem;">UK-Wide Coverage</h3>
+          <p style="color:var(--muted);font-size:0.95rem;line-height:1.7;">Based in Essex, we cover the whole of the UK — single-site or multi-location, no job is out of reach.</p>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:12px;padding:2rem;background:#fff;">
+          <div style="width:44px;height:44px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141009" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <h3 style="font-size:1.1rem;font-weight:600;color:#141009;margin-bottom:0.6rem;">Transparent Pricing</h3>
+          <p style="color:var(--muted);font-size:0.95rem;line-height:1.7;">We assess your machine and give you a clear quote before any work begins — so you're always in control.</p>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:12px;padding:2rem;background:#fff;">
+          <div style="width:44px;height:44px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141009" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/><path d="M7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>
+          </div>
+          <h3 style="font-size:1.1rem;font-weight:600;color:#141009;margin-bottom:0.6rem;">Brand Agnostic</h3>
+          <p style="color:var(--muted);font-size:0.95rem;line-height:1.7;">La Marzocco, Astoria, Faema, La Cimbali, BFC, Conti, Mazzer, Expobar and more. No lock-in, no bias.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who We Work With -->
+  <section style="background:var(--bg);padding:5rem 1.5rem;">
+    <div style="max-width:1000px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:3rem;">
+        <span style="display:inline-block;background:var(--gold);color:#141009;font-size:0.75rem;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:1.2rem;">WHO WE WORK WITH</span>
+        <h2 style="font-family:var(--font-heading);font-size:2.2rem;color:#141009;margin-bottom:0.6rem;">One Machine or One Hundred — <em style="color:var(--gold);font-style:normal;">We've Got You Covered</em></h2>
+        <p style="color:var(--muted);max-width:580px;margin:0 auto;line-height:1.8;">Whether you're a single-site independent or a national operator, our service scales to fit — with the same level of care throughout.</p>
+      </div>
+      <div class="two-col-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+        <div style="background:#fff;border:1px solid var(--border);border-radius:16px;padding:2.2rem;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--gold),transparent);border-radius:3px 0 0 3px;"></div>
+          <div style="font-size:2rem;margin-bottom:1rem;">☕</div>
+          <h3 style="font-family:var(--font-heading);font-size:1.5rem;color:#141009;margin-bottom:0.7rem;">Independent Businesses</h3>
+          <p style="color:var(--muted);font-size:0.92rem;line-height:1.8;margin-bottom:1.2rem;">From the neighbourhood café to the boutique hotel — we respond fast and treat every client as a priority.</p>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+            <li style="color:var(--muted);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold);">→</span> Cafés & coffee shops</li>
+            <li style="color:var(--muted);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold);">→</span> Restaurants & bistros</li>
+            <li style="color:var(--muted);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold);">→</span> Boutique hotels & B&Bs</li>
+            <li style="color:var(--muted);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold);">→</span> Delicatessens & food halls</li>
+          </ul>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(192,125,42,0.3);border-radius:16px;padding:2.2rem;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--gold-lt),transparent);border-radius:3px 0 0 3px;"></div>
+          <div style="font-size:2rem;margin-bottom:1rem;">🏢</div>
+          <h3 style="font-family:var(--font-heading);font-size:1.5rem;color:#141009;margin-bottom:0.7rem;">Multi-Site Operators</h3>
+          <p style="color:var(--muted);font-size:0.92rem;line-height:1.8;margin-bottom:1.2rem;">Structured maintenance programmes, centralised reporting, and consistent delivery across every location.</p>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+            <li style="color:var(--muted);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold);">→</span> Hotel groups & chains</li>
+            <li style="color:var(--muted);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold);">→</span> Coffee shop franchises</li>
+            <li style="color:var(--muted);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold);">→</span> Corporate offices & campuses</li>
+            <li style="color:var(--muted);font-size:0.88rem;display:flex;align-items:center;gap:0.6rem;"><span style="color:var(--gold);">→</span> Catering & hospitality groups</li>
+          </ul>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:2.5rem;color:var(--muted);font-size:0.88rem;">Every client receives the same direct phone number and commitment to uptime — regardless of size.</p>
+    </div>
+  </section>
+
+  <!-- Coverage Map -->
+  <section class="coverage-section" id="about-coverage">
+    <div class="coverage-inner">
+      <div>
+        <span style="display:inline-block;background:rgba(192,125,42,0.1);color:var(--gold);font-size:0.75rem;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:1.5rem;">UK COVERAGE</span>
+        <h2 style="font-family:var(--font-heading);font-size:2.2rem;color:#141009;margin-bottom:1rem;">We cover the entire UK — wherever you need us</h2>
+        <p style="color:var(--muted);line-height:1.8;margin-bottom:1.5rem;">Based in Essex, our engineers travel across the UK. No job is too far.</p>
+        <p style="color:var(--muted);line-height:1.8;margin-bottom:2rem;">Fastest response across London, the South East, East Anglia, and the Midlands.</p>
+        <a class="btn" href="#" onclick="showTab('main',event);setTimeout(()=>document.getElementById('form').scrollIntoView({behavior:'smooth'}),80);" style="display:inline-block;">Get a Quote</a>
+      </div>
+      <div>
+        <div style="background:rgba(192,125,42,0.05);border:1px solid var(--border);border-radius:14px;padding:2rem;">
+          <p style="color:var(--gold);font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:1.2rem;">Regions Covered</p>
+          <div class="coverage-regions">
+            <div class="region-tag">London</div>
+            <div class="region-tag">South East</div>
+            <div class="region-tag">East Anglia</div>
+            <div class="region-tag">East Midlands</div>
+            <div class="region-tag">West Midlands</div>
+            <div class="region-tag">South West</div>
+            <div class="region-tag">Yorkshire</div>
+            <div class="region-tag">North West</div>
+            <div class="region-tag">North East</div>
+          </div>
+          <p style="color:var(--muted);font-size:0.8rem;margin-top:1.5rem;border-top:1px solid var(--border);padding-top:1rem;">📍 Based in Essex — fastest response across London & South East</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section style="padding:5rem 1.5rem;background:var(--bg);" id="about-faq">
+    <div style="max-width:780px;margin:0 auto;text-align:center;">
+      <span style="display:inline-block;background:var(--gold);color:#141009;font-size:0.75rem;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:1.5rem;">FAQ</span>
+      <h2 style="font-family:var(--font-heading);font-size:2.2rem;color:#141009;margin-bottom:0.5rem;">Common questions</h2>
+      <p style="color:var(--muted);margin-bottom:0;">Everything you need to know before getting in touch.</p>
+    </div>
+    <div class="faq-wrap">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Do you cover my area? <span class="faq-icon">+</span></button>
+        <div class="faq-a">We're based in Essex and cover the whole of the UK. Response times are fastest across London, the South East, and East Anglia, but we regularly travel for both emergency call-outs and scheduled maintenance contracts.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">How much does a service or repair cost? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Pricing depends on the machine, service required, and location. We don't charge for quotes — we'll give you a clear, itemised price before any work begins.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What brands do you work on? <span class="faq-icon">+</span></button>
+        <div class="faq-a">We're brand agnostic — La Marzocco, Nuova Simonelli, Victoria Arduino, Astoria, Faema, La Cimbali, BFC, Conti, Mazzer, Expobar, Franke, WMF, Schaerer, Mahlkönig, Rancilio, and many more.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">How quickly can you respond to an emergency? <span class="faq-icon">+</span></button>
+        <div class="faq-a">We aim to respond to London call-outs within 4 hours, and within 24 hours anywhere else in the UK. Contract customers receive priority response. Call 07393 025927 for immediate assistance.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Do you offer maintenance contracts? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Yes — monthly, quarterly, and bi-annual contracts for single and multi-site operators. Contract customers benefit from priority call-out response, discounted parts, and a full service log.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Do I need to bring my machine to you, or do you come to us? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Both. Emergency repairs, maintenance, and installations are carried out on-site. For deep workshop services like descaling or decontamination, we can collect and return your machine, or you can drop to our Essex workshop.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Is a boiler inspection legally required? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Yes, for commercial espresso machines above certain pressure thresholds. The PSSR 2000 requires regular inspections by a competent person. We carry out compliant boiler inspections and issue all required documentation.</div>
+      </div>
+    </div>
+    <script>
+    function toggleFaq(btn){
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if(!isOpen) item.classList.add('open');
+    }
+    </script>
+  </section>
+
+  <!-- Location -->
+  <section style="padding:5rem 1.5rem;background:#fff;" id="about-location">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:2.5rem;">
+        <span style="display:inline-block;background:var(--gold);color:#141009;font-size:0.75rem;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:1.5rem;">OUR LOCATION</span>
+        <h2 style="font-family:var(--font-heading);font-size:2.2rem;color:#141009;margin-bottom:0.5rem;">Find Us</h2>
+        <p style="color:var(--muted);max-width:520px;margin:0 auto;">We're based in Abridge, Essex — well placed for rapid response across London, the South East, and East Anglia.</p>
+      </div>
+      <div style="display:grid;gap:2rem;align-items:start;" class="map-grid">
+        <div style="background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:2rem;">
+          <h4 style="font-weight:600;color:#141009;margin-bottom:1.2rem;font-size:1rem;">Pragmatic UK Services</h4>
+          <div style="display:flex;flex-direction:column;gap:1rem;">
+            <div style="display:flex;gap:0.7rem;align-items:flex-start;">
+              <svg style="flex-shrink:0;margin-top:2px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span style="font-size:0.88rem;color:var(--muted);line-height:1.6;">Unit 1 Patch Park Ln<br>Abridge, Romford<br>RM4 1AA</span>
+            </div>
+            <div style="display:flex;gap:0.7rem;align-items:center;">
+              <svg style="flex-shrink:0;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.9 1.18 2 2 0 012.88 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 7.69a16 16 0 006.21 6.21l1.06-1.06a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              <a href="tel:07393025927" style="font-size:0.88rem;color:var(--muted);text-decoration:none;">07393 025927</a>
+            </div>
+            <div style="display:flex;gap:0.7rem;align-items:center;">
+              <svg style="flex-shrink:0;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span style="font-size:0.88rem;color:var(--muted);">Mon–Fri: 8am – 5pm</span>
+            </div>
+          </div>
+          <a href="https://maps.google.com/?q=Unit+1+Patch+Park+Ln,+Abridge,+Romford+RM4+1AA" target="_blank" style="display:inline-block;margin-top:1.5rem;font-size:0.82rem;font-weight:600;color:var(--gold);text-decoration:none;">Open in Google Maps ↗</a>
+        </div>
+        <div style="border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);">
+          <iframe src="https://www.google.com/maps?q=Unit+1+Patch+Park+Ln,+Abridge,+Romford+RM4+1AA&output=embed" width="100%" height="380" style="border:0;display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end #page-about -->
+
 <!-- SPARE PARTS PAGE -->
 <div id="page-parts" style="display:none;">
  
   <!-- Parts Hero -->
   <section style="background:radial-gradient(circle at top,rgba(224,168,78,0.18),transparent 60%),linear-gradient(135deg,#141009 0%,#1d160b 100%);color:#fff;text-align:center;padding:5rem 1.5rem;position:relative;overflow:hidden;">
+    <canvas class="section-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
     <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(224,168,78,0.1),transparent 70%);top:-200px;right:-200px;border-radius:50%;"></div>
     <span style="display:inline-block;background:rgba(200,168,75,0.2);color:var(--gold-lt);font-size:0.75rem;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:1.5rem;">GENUINE & OEM COMPATIBLE</span>
     <h1 style="font-family:var(--font-heading);font-size:2.8rem;line-height:1.1;">Commercial Coffee Machine<br><em style="color:var(--gold-lt);">Spare Parts</em></h1>
@@ -2254,10 +2369,10 @@ function updateContractDescription(val) {
     </div><!-- end accordion -->
  
     <!-- Can't find CTA -->
-    <div style="background:var(--dark);border-radius:14px;padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;margin-top:2rem;">
+    <div style="background:rgba(192,125,42,0.08);border:1px solid var(--border);border-radius:14px;padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;margin-top:2rem;">
       <div>
-        <p style="color:var(--gold-lt);font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:0.3rem;">Can't find your part?</p>
-        <p style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Tell us the brand, model, and part — we'll source it from our supplier network.</p>
+        <p style="color:var(--gold);font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:0.3rem;">Can't find your part?</p>
+        <p style="color:var(--muted);font-size:0.9rem;">Tell us the brand, model, and part — we'll source it from our supplier network.</p>
       </div>
       <a href="#parts-enquiry" class="btn" style="white-space:nowrap;">Make an Enquiry</a>
     </div>
@@ -2337,6 +2452,7 @@ function updateContractDescription(val) {
 <div id="page-used" style="display:none;">
  
   <section style="background:radial-gradient(circle at top,rgba(224,168,78,0.18),transparent 60%),linear-gradient(135deg,#141009 0%,#1d160b 100%);color:#fff;text-align:center;padding:5rem 1.5rem;position:relative;overflow:hidden;">
+    <canvas class="section-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
     <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(224,168,78,0.1),transparent 70%);top:-200px;right:-200px;border-radius:50%;pointer-events:none;"></div>
     <span style="display:inline-block;background:rgba(200,168,75,0.2);color:var(--gold-lt);font-size:0.75rem;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:1.5rem;">REFURBISHED & TESTED</span>
     <h1 style="font-family:var(--font-heading);font-size:2.8rem;line-height:1.1;">Second Hand<br><em style="color:var(--gold-lt);">Commercial Coffee Machines</em></h1>
@@ -2428,6 +2544,7 @@ function updateContractDescription(val) {
 <div id="page-newmachines" style="display:none;">
  
   <section style="background:radial-gradient(circle at top,rgba(224,168,78,0.18),transparent 60%),linear-gradient(135deg,#141009 0%,#1d160b 100%);color:#fff;text-align:center;padding:5rem 1.5rem;position:relative;overflow:hidden;">
+    <canvas class="section-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
     <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(224,168,78,0.1),transparent 70%);top:-200px;right:-200px;border-radius:50%;pointer-events:none;"></div>
     <span style="display:inline-block;background:rgba(200,168,75,0.2);color:var(--gold-lt);font-size:0.75rem;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:1.5rem;">SOURCED FOR YOU</span>
     <h1 style="font-family:var(--font-heading);font-size:2.8rem;line-height:1.1;">Buy a New<br><em style="color:var(--gold-lt);">Commercial Coffee Machine</em></h1>
@@ -2561,47 +2678,7 @@ function updateContractDescription(val) {
  
 </div><!-- end #page-newmachines -->
  
-<!-- LOCATION MAP -->
-<section style="padding:5rem 1.5rem;background:#fff;" id="location">
-  <div style="max-width:1100px;margin:0 auto;">
-    <div style="text-align:center;margin-bottom:2.5rem;">
-      <span style="display:inline-block;background:var(--gold);color:#141009;font-size:0.75rem;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:1.5rem;">OUR LOCATION</span>
-      <h2 style="font-family:var(--font-heading);font-size:2.2rem;color:#141009;margin-bottom:0.5rem;">Find Us</h2>
-      <p style="color:var(--muted);max-width:520px;margin:0 auto;">We're based in Abridge, Essex — well placed for rapid response across London, the South East, and East Anglia.</p>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 2fr;gap:2rem;align-items:start;">
-      <div style="background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:2rem;">
-        <h4 style="font-weight:600;color:#141009;margin-bottom:1.2rem;font-size:1rem;">Pragmatic UK Services</h4>
-        <div style="display:flex;flex-direction:column;gap:1rem;">
-          <div style="display:flex;gap:0.7rem;align-items:flex-start;">
-            <svg style="flex-shrink:0;margin-top:2px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span style="font-size:0.88rem;color:var(--muted);line-height:1.6;">Unit 1 Patch Park Ln<br>Abridge, Romford<br>RM4 1AA</span>
-          </div>
-          <div style="display:flex;gap:0.7rem;align-items:center;">
-            <svg style="flex-shrink:0;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.9 1.18 2 2 0 012.88 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 7.69a16 16 0 006.21 6.21l1.06-1.06a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-            <a href="tel:07393025927" style="font-size:0.88rem;color:var(--muted);text-decoration:none;">07393 025927</a>
-          </div>
-          <div style="display:flex;gap:0.7rem;align-items:center;">
-            <svg style="flex-shrink:0;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <span style="font-size:0.88rem;color:var(--muted);">Mon–Fri: 8am – 5pm</span>
-          </div>
-        </div>
-        <a href="https://maps.google.com/?q=Unit+1+Patch+Park+Ln,+Abridge,+Romford+RM4+1AA" target="_blank" style="display:inline-block;margin-top:1.5rem;font-size:0.82rem;font-weight:600;color:var(--gold);text-decoration:none;">Open in Google Maps ↗</a>
-      </div>
-      <div style="border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);">
-        <iframe
-          src="https://www.google.com/maps?q=Unit+1+Patch+Park+Ln,+Abridge,+Romford+RM4+1AA&output=embed"
-          width="100%"
-          height="380"
-          style="border:0;display:block;"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-      </div>
-    </div>
-  </div>
-</section>
+
  
 <footer>
   <div class="footer-top">
@@ -2622,7 +2699,7 @@ function updateContractDescription(val) {
         <text x="65" y="22" font-family="Georgia,serif" font-size="17" font-weight="700" fill="#f0e8d0" letter-spacing="0.3">Pragmatic UK Services</text>
         <text x="66" y="36" font-family="Arial,sans-serif" font-size="8.5" fill="#c07d2a" letter-spacing="2.2">COFFEE MACHINE SERVICE &amp; SUPPORT</text>
       </svg>
-      <p class="footer-brand">Commercial coffee machine servicing, repair, and maintenance across the UK. Based in Essex — engineers available nationwide.</p>
+      <p class="footer-brand">Commercial coffee machine servicing, repair, and maintenance across the UK — engineers available nationwide.</p>
       <div class="footer-contact-item" style="margin-top:1.2rem;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.9 1.18 2 2 0 012.88 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 7.69a16 16 0 006.21 6.21l1.06-1.06a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
         <span>07393 025927</span>
@@ -2633,7 +2710,7 @@ function updateContractDescription(val) {
       </div>
       <div class="footer-contact-item">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        <span>Based in Essex, UK</span>
+        <span style="line-height:1.7;">Unit 1 Patch Park Ln<br>Abridge, Romford<br>RM4 1AA</span>
       </div>
     </div>
     <div class="footer-col">
@@ -2649,13 +2726,12 @@ function updateContractDescription(val) {
     </div>
     <div class="footer-col">
       <h5>Company</h5>
-      <a href="#our-passion" onclick="showTab('main',event)">Our Philosophy</a>
-      <a href="#why-us" onclick="showTab('main',event)">Why Choose Us</a>
+      <a href="#about-our-passion" onclick="showTab('about',event)">Our Philosophy</a>
       <a href="#how-it-works" onclick="showTab('main',event)">How It Works</a>
-      <a href="#coverage" onclick="showTab('main',event)">Coverage</a>
+      <a href="#about-coverage" onclick="showTab('about',event)">Coverage</a>
       <a href="#contracts" onclick="showTab('main',event)">Contracts</a>
-      <a href="#faq" onclick="showTab('main',event)">FAQ</a>
-      <a href="#location" onclick="showTab('main',event)">Our Location</a>
+      <a href="#about-faq" onclick="showTab('about',event)">FAQ</a>
+      <a href="#about-location" onclick="showTab('about',event)">Our Location</a>
       <a href="#" onclick="showTab('parts',event)">Spare Parts</a>
       <a href="#" onclick="showTab('used',event)">Used Machines</a>
       <a href="#" onclick="showTab('newmachines',event)">Buy New</a>
@@ -2671,20 +2747,21 @@ function updateContractDescription(val) {
 <script>
 function showTab(tab, e) {
   if(e) e.preventDefault();
-  const pages = ['page-main','page-parts','page-used','page-newmachines'];
+  const pages = ['page-main','page-about','page-parts','page-used','page-newmachines'];
   pages.forEach(id => {
     const el = document.getElementById(id);
     if(el) el.style.display = 'none';
   });
-  const show = tab === 'main' ? 'page-main' : tab === 'parts' ? 'page-parts' : tab === 'used' ? 'page-used' : 'page-newmachines';
-  document.getElementById(show).style.display = 'block';
- 
-  document.querySelectorAll('.nav-tab-parts,.nav-tab-used,.nav-tab-new').forEach(el => el.classList.remove('active-tab'));
+  const map = {main:'page-main',about:'page-about',parts:'page-parts',used:'page-used',newmachines:'page-newmachines'};
+  document.getElementById(map[tab] || 'page-main').style.display = 'block';
+
+  document.querySelectorAll('.nav-tab-about,.nav-tab-parts,.nav-tab-used,.nav-tab-new').forEach(el => el.classList.remove('active-tab'));
+  if(tab === 'about') document.querySelector('.nav-tab-about').classList.add('active-tab');
   if(tab === 'parts') document.querySelector('.nav-tab-parts').classList.add('active-tab');
   if(tab === 'used') document.querySelector('.nav-tab-used').classList.add('active-tab');
   if(tab === 'newmachines') document.querySelector('.nav-tab-new').classList.add('active-tab');
- 
-  if(tab === 'main' && e && e.currentTarget && e.currentTarget.hash) {
+
+  if((tab === 'main' || tab === 'about') && e && e.currentTarget && e.currentTarget.hash) {
     const target = document.querySelector(e.currentTarget.hash);
     if(target) setTimeout(()=>target.scrollIntoView({behavior:'smooth'}), 50);
   } else {
@@ -2795,6 +2872,150 @@ function closeNav() {
   document.getElementById('navLinks').classList.remove('open');
 }
 </script>
+
+
+<script>
+(function() {
+  const canvas = document.getElementById('heroCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+    canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); });
+
+  const W = () => canvas.offsetWidth;
+  const H = () => canvas.offsetHeight;
+
+  // Draw a single coffee bean
+  function drawBean(ctx, x, y, rx, ry, rot, opacity) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rot);
+    ctx.globalAlpha = opacity;
+
+    // Outer bean body
+    ctx.beginPath();
+    ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#c07d2a';
+    ctx.fill();
+
+    // Subtle inner sheen
+    ctx.beginPath();
+    ctx.ellipse(-rx * 0.15, -ry * 0.2, rx * 0.45, ry * 0.3, -0.4, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(224,168,78,0.25)';
+    ctx.fill();
+
+    // Centre crease line
+    ctx.beginPath();
+    ctx.moveTo(0, -ry * 0.92);
+    ctx.bezierCurveTo(rx * 0.55, -ry * 0.2, rx * 0.55, ry * 0.2, 0, ry * 0.92);
+    ctx.strokeStyle = 'rgba(20,16,9,0.55)';
+    ctx.lineWidth = rx * 0.13;
+    ctx.lineCap = 'round';
+    ctx.globalAlpha = opacity * 0.7;
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  // Bean particles
+  const BEAN_COUNT = 22;
+  const beans = [];
+
+  function makeBean(init) {
+    const size = 7 + Math.random() * 13;
+    return {
+      x: Math.random() * W(),
+      y: init ? Math.random() * H() : -30 - Math.random() * 60,
+      rx: size,
+      ry: size * 0.62,
+      rot: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.008,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: 0.18 + Math.random() * 0.32,
+      opacity: 0.07 + Math.random() * 0.11,
+      drift: Math.random() * Math.PI * 2,
+      driftSpeed: 0.005 + Math.random() * 0.008,
+    };
+  }
+
+  for (let i = 0; i < BEAN_COUNT; i++) beans.push(makeBean(true));
+
+  function animate() {
+    ctx.clearRect(0, 0, W(), H());
+
+    for (const b of beans) {
+      b.drift += b.driftSpeed;
+      b.x += b.vx + Math.sin(b.drift) * 0.18;
+      b.y += b.vy;
+      b.rot += b.rotSpeed;
+
+      if (b.y > H() + 40) {
+        Object.assign(b, makeBean(false));
+      }
+
+      drawBean(ctx, b.x, b.y, b.rx, b.ry, b.rot, b.opacity);
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  // Run same animation on all other dark hero canvases
+  document.querySelectorAll('.section-canvas').forEach(function(c) {
+    const cx = c.getContext('2d');
+    function rsz() {
+      c.width = c.offsetWidth * window.devicePixelRatio;
+      c.height = c.offsetHeight * window.devicePixelRatio;
+      cx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    rsz();
+    const cW = () => c.offsetWidth;
+    const cH = () => c.offsetHeight;
+    const cBeans = [];
+    for (let i = 0; i < 18; i++) {
+      const sz = 7 + Math.random() * 12;
+      cBeans.push({
+        x: Math.random() * cW(), y: Math.random() * cH(),
+        rx: sz, ry: sz * 0.62,
+        rot: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.008,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: 0.18 + Math.random() * 0.32,
+        opacity: 0.07 + Math.random() * 0.1,
+        drift: Math.random() * Math.PI * 2,
+        driftSpeed: 0.005 + Math.random() * 0.008,
+      });
+    }
+    function cAnimate() {
+      cx.clearRect(0, 0, cW(), cH());
+      cBeans.forEach(function(b) {
+        b.drift += b.driftSpeed;
+        b.x += b.vx + Math.sin(b.drift) * 0.18;
+        b.y += b.vy;
+        b.rot += b.rotSpeed;
+        if (b.y > cH() + 40) {
+          const sz = 7 + Math.random() * 12;
+          b.x = Math.random() * cW(); b.y = -30;
+          b.rx = sz; b.ry = sz * 0.62;
+          b.opacity = 0.07 + Math.random() * 0.1;
+        }
+        drawBean(cx, b.x, b.y, b.rx, b.ry, b.rot, b.opacity);
+      });
+      requestAnimationFrame(cAnimate);
+    }
+    cAnimate();
+  });
+})();
+</script>
+
+
 
 </body>
  
